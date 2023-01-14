@@ -11,7 +11,15 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         
-        user = User.query.filter_by(email=email) #filter all users that have this email
+        user = User.query.filter_by(email=email).first() #filter all users that have this email
+        if user:
+            if check_password_hash(user.password, password):
+                flash('Logged in successfully!',category='success')
+                return redirect(url_for('views.home'))
+            else:
+                flash('Incorrect password, try again!',category='error')
+        else:
+            flash('Email does not exist.',category='error')
     return render_template("login.html")
 
 @auth.route('/logout')
@@ -26,7 +34,10 @@ def sign_up():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        if len(email) < 4:
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash("This email already exists", category='error')
+        elif len(email) < 4:
             flash("Email must be at least 5 characters long", category='error')
         elif len(first_name) < 2:
             flash("First Name must be at least 2 characters long", category='error')
