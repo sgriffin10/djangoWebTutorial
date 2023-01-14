@@ -5,6 +5,7 @@ means that we can import website folder and run init.py file
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -29,6 +30,14 @@ def create_app():
     from . import models
 
     create_database(app)
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login' #where do we redirect if user is not logged in and login is required
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(id):
+        return models.User.query.get(int(id)) #looks for primary key, "get" looks for primary key as opposed to "filter"
 
     return app
 
