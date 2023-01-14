@@ -27,9 +27,9 @@ def sign_up():
         elif password1 != password2:
             flash("Passwords do not match", category='error')
         elif len(password1) < 7:
-            flash("Passwords must be at least 7 characters long", category='error')
+            flash("Password must be at least 7 characters long", category='error')
         else:
             #add user to db
-            pass
+            flash("Account created!",category="success")
 
     return render_template("sign_up.html")
