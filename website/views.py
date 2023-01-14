@@ -1,4 +1,4 @@
-from flask import Blueprint #means
+from flask import Blueprint,render_template
 '''
 defines url endpoints for front end of site
 define that this file is a blueprint for our app
@@ -9,4 +9,5 @@ views = Blueprint('views',__name__)
 
 @views.route('/') #decorator
 def home(): #route
-    return "<h1>Test</h1>"
+    return render_template("home.html")
+    # return "<h1>Test</h1>"
