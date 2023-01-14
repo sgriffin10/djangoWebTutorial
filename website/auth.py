@@ -22,7 +22,7 @@ def login():
                 flash('Incorrect password, try again!',category='error')
         else:
             flash('Email does not exist.',category='error')
-    return render_template("login.html")
+    return render_template("login.html",user=current_user)
 
 @auth.route('/logout')
 @login_required #makes sure that we cannot access this route without user being logged in
@@ -58,4 +58,4 @@ def sign_up():
             flash("Account created!",category="success")
             return redirect(url_for('views.home')) #redirects to this url (views is name of blueprint, home is function); could also use redirect('/') but that hardcodes it
 
-    return render_template("sign_up.html")
+    return render_template("sign_up.html", user=current_user)
